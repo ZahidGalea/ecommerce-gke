@@ -1,6 +1,9 @@
 # Created by https://www.toptal.com/developers/gitignore/api/python,flutter,windows,macos,appbuilder,git
 # Edit at https://www.toptal.com/developers/gitignore?templates=python,flutter,windows,macos,appbuilder,git
 
+/secrets/ecommerce-dev-392819-dde10994963d.json
+./secrets/ecommerce-dev-392819-dde10994963d.json
+
 ### AppBuilder ###
 .ab/
 
