@@ -4,7 +4,7 @@ metadata:
   name: presentation-ingress
   annotations:
     kubernetes.io/ingress.global-static-ip-name: "ecommerce-ip"
-    networking.gke.io/managed-certificates: "ecommerce-ssl-cert"
+    networking.gke.io/managed-certificates: "presentation-certificate"
 spec:
   rules:
     - host: "zahidgalea.com"

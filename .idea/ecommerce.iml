@@ -5,9 +5,9 @@
       <excludeFolder url="file://$MODULE_DIR$/.tmp" />
       <excludeFolder url="file://$MODULE_DIR$/temp" />
       <excludeFolder url="file://$MODULE_DIR$/tmp" />
-      <excludeFolder url="file://$MODULE_DIR$/ecommerce_front_app/.dart_tool" />
-      <excludeFolder url="file://$MODULE_DIR$/ecommerce_front_app/.pub" />
-      <excludeFolder url="file://$MODULE_DIR$/ecommerce_front_app/build" />
+      <excludeFolder url="file://$MODULE_DIR$/services/presentation/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/services/presentation/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/services/presentation/build" />
     </content>
     <orderEntry type="jdk" jdkName="Python 3.11" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
