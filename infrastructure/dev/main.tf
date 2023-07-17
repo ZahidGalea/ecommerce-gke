@@ -32,7 +32,8 @@ module "project-services" {
     "run.googleapis.com",
     "compute.googleapis.com",
     "container.googleapis.com",
-    "artifactregistry.googleapis.com"
+    "artifactregistry.googleapis.com",
+    "certificatemanager.googleapis.com"
 
   ]
 }

@@ -10,16 +10,18 @@ resource "google_container_cluster" "cluster" {
     }
   }
 
-  lifecycle = [reservation_affinity, machine_type]
-
   network    = google_compute_network.ecommerce-vpc.name
   subnetwork = google_compute_subnetwork.subnetwork-gke-base.name
 
   node_config {
-    machine_type = "n1-standard-1"
+    machine_type = "e2-medium"
 
     metadata = {
       disable-legacy-endpoints = "true"
+    }
+
+    reservation_affinity {
+      consume_reservation_type = "NO_RESERVATION"
     }
 
   }

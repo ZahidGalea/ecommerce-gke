@@ -16,11 +16,5 @@ samples, guidance on mobile development, and a full API reference.
 ### Flutter bin bind
 
 ```bash
-export PATH=C:\Users\zahid\flutter:$PATH
-```
-
-### Flutter bin bind
-
-```bash
-export PATH=C:\Users\zahid\flutter:$PATH
+export PATH=/c/Users/zahid/flutter/bin:$PATH
 ```

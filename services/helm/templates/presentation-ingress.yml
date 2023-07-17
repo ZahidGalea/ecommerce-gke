@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: presentation-ingress
+  annotations:
+    kubernetes.io/ingress.global-static-ip-name: "ecommerce-ip"
+    networking.gke.io/managed-certificates: "ecommerce-ssl-cert"
+spec:
+  rules:
+    - host: "zahidgalea.com"
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: presentation-service
+                port:
+                  number: 80

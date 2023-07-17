@@ -1,0 +1,19 @@
+presentation:
+  label: presentation
+  replicaCount: 1
+  image:
+    repository: us-east1-docker.pkg.dev/ecommerce-dev-392819/front-app/flutter-app
+    tag: "0.0.4"
+
+namespace: "ecommerce"
+
+#backend:
+#  replicaCount: 1
+#  image:
+#    repository: gcr.io/your-gcp-project/backend
+#    tag: "0.1.0"
+#
+#database:
+#  image:
+#    repository: postgres
+#    tag: "13.3"

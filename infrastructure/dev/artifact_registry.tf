@@ -1,9 +1,5 @@
-resource "google_artifact_registry_repository" "my-repo" {
+resource "google_artifact_registry_repository" "front-app" {
   location      = local.default_region
   repository_id = "front-app"
   format        = "DOCKER"
-
-  docker_config {
-    immutable_tags = true
-  }
 }
