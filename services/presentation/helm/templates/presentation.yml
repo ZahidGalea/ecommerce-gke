@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: "{{ .Values.presentation_image }}:{{ .Values.front_version }}"
+          image: {{ .Values.presentation_image }}
           ports:
             - containerPort: 80

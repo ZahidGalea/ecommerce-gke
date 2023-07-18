@@ -45,27 +45,23 @@ async def main(project_id, app_version, environment):
 		await flutter_app_container.publish(
 				f"us-east1-docker.pkg.dev/{project_id}/presentation-{environment}/flutter-app:latest")
 
-		# Helm deployment
-		helm = client.container() \
-			.from_("alpine/helm") \
-			.with_directory("/app", client.host().directory(f"{PRESENTATION_APP_FOLDER}/helm")) \
-			.with_workdir("/app")
+		helm_deploy_string = ["helm", "upgrade", f"ecommerce-{environment}", ".", "--namespace",
+							  f"ecommerce-{environment}",
+							  "--install",
+							  '--create-namespace',
+							  "--dependency-update",
+							  '--wait', "--debug",
+							  "--set",
+							  f"presentation_image=us-east1-docker.pkg.dev/{project_id}/presentation-{environment}/flutter-app:{app_version}"]
 
-		# Run application tests
-		test = await helm.with_exec(
-				["upgrade", f"ecommerce-{environment}", ".", "--namespace", f"ecommerce-{environment}",
-				 "--install",
-				 '--create-namespace',
-				 "--dependency-update",
-				 '--wait', "--debug",
-				 "--set", f"front_version={app_version}",
-				 "--set", f"environment={environment}",
-				 "--set",
-				 f"presentation_image=us-east1-docker.pkg.dev/{project_id}/presentation-{environment}/flutter-app"]
-		)
-
+	# Helm deployment
+	# helm = client.container() \
+	# 	.from_("alpine/helm") \
+	# 	.with_directory("/app", client.host().directory(f"{PRESENTATION_APP_FOLDER}/helm")) \
+	# 	.with_workdir("/app")
+	print(f"Deploy: {' '.join(helm_deploy_string)}")
 	print(f"Upgrading helm ecommerce-{environment} setting front_version={app_version}")
-	print(f"Published image to: {flutter_app_container}")
+	print(f"Published to: us-east1-docker.pkg.dev/{project_id}/presentation-{environment}/flutter-app:{app_version}")
 
 
 if __name__ == '__main__':
