@@ -11,6 +11,10 @@ gcloud auth configure-docker us-east1-docker.pkg.dev
 ```bash
 docker build -t us-east1-docker.pkg.dev/ecommerce-dev-392819/front-app/flutter-app:0.0.4 .
 docker push us-east1-docker.pkg.dev/ecommerce-dev-392819/front-app/flutter-app:0.0.4
+
+```
+```bash
+python ci/presentation.py --gcp_project_id "ecommerce-dev-392819" --env dev --front_version 0.0.5
 ```
 
 Run it locally

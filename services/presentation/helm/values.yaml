@@ -1,0 +1,9 @@
+presentation:
+  label: presentation
+  replicaCount: 1
+  image:
+    repository: us-east1-docker.pkg.dev/ecommerce-dev-392819/front-app/flutter-app
+
+namespace: "ecommerce"
+
+front_version: 0.0.1-alpha

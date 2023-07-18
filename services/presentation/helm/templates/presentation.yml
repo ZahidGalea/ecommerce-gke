@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: presentation-deployment
+spec:
+  replicas: {{ .Values.presentation.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Values.presentation.label }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.presentation.label }}
+    spec:
+      containers:
+        - name: frontend
+          image: "{{ .Values.presentation.image.repository }}:{{ .Values.front_version }}"
+          ports:
+            - containerPort: 80
