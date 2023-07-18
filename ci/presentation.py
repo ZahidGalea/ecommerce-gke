@@ -1,16 +1,17 @@
 import argparse
 import sys
 
+import anyio
 import dagger
 from dagger import Container
 
 PRESENTATION_APP_FOLDER = "services/presentation"
 
 
-def main(project_id, app_version):
+async def main(project_id, app_version, environment):
 	config = dagger.Config(log_output=sys.stdout)
 
-	with dagger.Connection(config) as client:
+	async with dagger.Connection(config) as client:
 		# Testing with flutter docker container
 		source = (
 			client.container()
@@ -23,11 +24,11 @@ def main(project_id, app_version):
 		)
 
 		# Run application tests
-		test = source.with_exec(["flutter", "test"])
+		test = await source.with_exec(["flutter", "test"])
 
 		# build application
 		# write the build output to the host
-		build = (
+		build = await (
 			test.with_exec(["flutter", "build", "web"])
 			.directory("./build")
 			.export(f"./{PRESENTATION_APP_FOLDER}/build")
@@ -39,15 +40,38 @@ def main(project_id, app_version):
 		flutter_app_container: Container = client.container().build(
 				context=client.host().directory(f"./{PRESENTATION_APP_FOLDER}"))
 
-		flutter_app_container.publish(f"us-east1-docker.pkg.dev/{project_id}/presentation/flutter-app:{app_version}")
-		flutter_app_container.publish(f"us-east1-docker.pkg.dev/{project_id}/presentation/flutter-app:latest")
+		await flutter_app_container.publish(
+				f"us-east1-docker.pkg.dev/{project_id}/presentation-{environment}/flutter-app:{app_version}")
+		await flutter_app_container.publish(
+				f"us-east1-docker.pkg.dev/{project_id}/presentation-{environment}/flutter-app:latest")
 
+		# Helm deployment
+		helm = client.container() \
+			.from_("alpine/helm") \
+			.with_directory("/app", client.host().directory(f"{PRESENTATION_APP_FOLDER}/helm")) \
+			.with_workdir("/app")
+
+		# Run application tests
+		test = await helm.with_exec(
+				["upgrade", f"ecommerce-{environment}", ".", "--namespace", f"ecommerce-{environment}",
+				 "--install",
+				 '--create-namespace',
+				 "--dependency-update",
+				 '--wait', "--debug",
+				 "--set", f"front_version={app_version}",
+				 "--set", f"environment={environment}",
+				 "--set",
+				 f"presentation_image=us-east1-docker.pkg.dev/{project_id}/presentation-{environment}/flutter-app"]
+		)
+
+	print(f"Upgrading helm ecommerce-{environment} setting front_version={app_version}")
 	print(f"Published image to: {flutter_app_container}")
 
 
 if __name__ == '__main__':
 	parser = argparse.ArgumentParser(description='Process environment variables.')
 	parser.add_argument('--gcp_project_id', required=True, help='Google Cloud Platform Project ID')
+	parser.add_argument('--env', required=False, default="dev", help='Environment')
 
 
 	def get_version():
@@ -58,4 +82,4 @@ if __name__ == '__main__':
 	version = get_version()
 
 	args = parser.parse_args()
-	main(args.gcp_project_id, version)
+	anyio.run(main, args.gcp_project_id, version, args.env)

@@ -36,7 +36,7 @@ gcloud container clusters get-credentials ecommerce-gke --zone us-east1
 App Installation with helm
 
 ```bash 
-kubectl config set-context --current --namespace ecommerce
+kubectl config set-context --current --namespace ecommerce-dev
 helm install dev . --namespace ecommerce --create-namespace --dependency-update --wait --debug
 ``` 
 
