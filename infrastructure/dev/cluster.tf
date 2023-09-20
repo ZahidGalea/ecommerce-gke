@@ -1,4 +1,5 @@
 resource "google_container_cluster" "cluster" {
+  count = 0 # TODO: Remover
   name             = "ecommerce-gke"
   location         = local.default_region
   enable_autopilot = true

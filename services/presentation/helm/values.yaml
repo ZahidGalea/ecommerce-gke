@@ -1,7 +1,0 @@
-presentation:
-  label: presentation
-  replicaCount: 1
-
-namespace: "ecommerce"
-
-presentation_image: us-east1-docker.pkg.dev/ecommerce-dev-392819/front-app/flutter-app:0.0.1-alpha
